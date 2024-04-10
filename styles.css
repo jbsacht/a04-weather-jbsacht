@@ -1,0 +1,37 @@
+#canvas {
+    width: 1040px;
+    height: 1400px;
+    position: relative;
+    top: 0px;
+    background: #c2f3ff;
+    display: flex;
+    flex-direction: column;
+    border: solid;
+    border-color: yellow;
+    border-width: 2px;
+    padding-top: 40px;
+}
+
+#dayHolder {
+    background: lightblue;
+    width: 1000px;
+    height:400px;
+    position: relative;
+    top: 30px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #ddd;
+
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+  
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  }
+#satPhoto {
+    width: 800px;
+    position: absolute;
+    top: 600px;
+    left: 110px;
+}

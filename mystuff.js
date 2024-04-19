@@ -15,7 +15,7 @@ const dayOfMonth = today.getDate();
 const month = today.toLocaleDateString("en-US", { month: 'long' });
 const year = today.getFullYear();
 
-const formattedDate = `${dayOfWeek}, ${dayOfMonth} ${month}, ${year}`;
+const formattedDate = `${dayOfWeek}, ${month} ${dayOfMonth}, ${year}`;
 
 const h1 = document.createElement("h1");
 h1.textContent = formattedDate;
@@ -35,6 +35,7 @@ await fetch(apiUrl)
   })
   .then(data => {
     forecast = data.properties.forecast;
+    console.log(forecast)
     fetch(forecast)
   .then(response => {
     if (!response.ok) {
@@ -49,7 +50,8 @@ await fetch(apiUrl)
     canvas.append(document.createElement("br"))
     let dayHolder = document.createElement("div")
     dayHolder.id = "dayHolder"
-    for(let i=0; i<data.properties.periods.length; i += 2) {
+    if(data.properties.periods[0].name == "Tonight") {
+      for(let i=1; i<data.properties.periods.length-1; i += 2) {
         let day = document.createElement('div')
         day.style.position = 'absolute'
         day.style.display = "flex"
@@ -77,6 +79,36 @@ await fetch(apiUrl)
         });
         dayHolder.append(day)
     }
+    }
+    else {
+    for(let i=0; i<data.properties.periods.length; i += 2) {
+        let day = document.createElement('div')
+        day.style.position = 'absolute'
+        day.style.display = "flex"
+        day.style.top = "100px"
+        day.style.flexDirection = "column"
+        day.style.left = 150 + i * 50 + "px";
+        day.style.width = "90px"
+        if(i==0) {
+            day.append("Today");
+        }
+        else {day.append(data.properties.periods[i].name) }
+        day.append(document.createElement("br"))
+        day.append(data.properties.periods[i+1].temperature)
+        day.append("°/")
+        day.append(data.properties.periods[i].temperature)
+        day.append("°")
+
+        fetch(data.properties.periods[i].icon).then(responde => {
+            if(!responde.ok) {throw new Error("Bruh the icon broke")}
+            return responde;
+        }).then(data => {
+            let img = document.createElement('img');
+            img.src = data.url
+            day.append(img);
+        });
+        dayHolder.append(day)
+    }}
     canvas.append(dayHolder)
   })
   .catch(error => {
